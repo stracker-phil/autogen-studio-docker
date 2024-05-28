@@ -1,21 +1,53 @@
-# Autogen Studio Docker Image
+# AutoGen Studio
 
-This repository contains a dockerfile which can be used to build a docker image for the Autogen Studio. The docker image can be used to run the Autogen Studio in a docker container.
+This repository contains a Docker Compose setup for running Autogen Studio. The Docker Compose setup allows for more flexibility and easier management of environment variables through an .env file.
 
-## Building the docker image
+## Prerequisites
 
-To build the docker image, run the following command in the root of this repository:
+Ensure you have Docker and Docker Compose installed on your machine.
 
-```bash
-docker build -t autogenstudio .
+When using a Mac, OrbStack is the recommended solution.
+
+## Setting up Environment Variables
+
+Create a .env file in the root of this repository and add the following environment variables:
+
+```sh
+HOST_PORT=8081
+OPENAI_API_KEY=sk-1234567   # Insert your OpenAI API key
 ```
 
-## Running the docker image
+Replace sk-1234567 with your actual OpenAI API key.
 
-To run the docker image, run the following command:
+**Building and Running the Docker Compose Setup**
 
-```bash
-docker run -it --rm -p 8081:8081 autogenstudio -e "OPENAI_API_KEY=your_openai_api_key"
+To build and run the Autogen Studio using Docker Compose, run the following command in the root of this repository:
+
+```sh
+# First time only: Build the container:
+docker-compose up --build
+
+# Starting the already built container:
+docker-compose up
 ```
 
-The Autogen Studio will be available at http://localhost:8081.
+This will build the Docker image and start the Autogen Studio in a Docker container. The Autogen Studio will be available at `http://localhost:${HOST_PORT}`.
+
+**Stopping the Docker Compose Setup**
+
+To stop the Docker Compose setup, press Ctrl+C in the terminal where docker-compose up is running, or run the following command in the root of this repository:
+
+```sh
+docker-compose down
+```
+
+## Custom Initialization Logic
+
+During the container setup, a script modifies the database path in the application's entry script to point to a mounted directory on the host machine. This ensures that the SQLite database is mirrored to the host, mainly to persist your data when rebuilding the container.
+
+See `config/boot.sh` for the relevant code.
+
+## Summary
+
+With this Docker Compose setup, you can easily run Autogen Studio on your local machine.
+Custom `.env` variables and the persisted SQLite database provide additional convenience.

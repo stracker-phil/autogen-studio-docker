@@ -1,0 +1,13 @@
+services:
+  web:
+    container_name: autogen-web-ui
+    build: ./config
+    ports:
+      - "${HOST_PORT}:${HOST_PORT}"
+    environment:
+      - HOST_PORT=${HOST_PORT}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    env_file:
+      - .env
+    volumes:
+      - ./data/:/usr/local/autogen-data

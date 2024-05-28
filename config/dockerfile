@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+RUN useradd -m appuser
+
+ARG HOST_PORT
+ARG OPENAI_API_KEY
+
+ENV HOST_PORT=${HOST_PORT}
+ENV OPENAI_API_KEY=${OPENAI_API_KEY}
+
+# Copy application files and install dependencies
+COPY . /app
+WORKDIR /app
+
+ENV PATH="/home/app/.local/bin:${PATH}"
+ENV PYTHONPATH="/home/app/.local/bin:/app:${PYTHONPATH}"
+
+RUN chmod +x /app/boot.sh
+RUN /app/boot.sh
+RUN autogenstudio version
+
+EXPOSE $HOST_PORT
+
+ENTRYPOINT [ "sh", "-c", "autogenstudio ui --host 0.0.0.0 --port ${HOST_PORT}" ]
