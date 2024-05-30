@@ -2,6 +2,13 @@
 
 This repository contains a Docker Compose setup for running Autogen Studio. The Docker Compose setup allows for more flexibility and easier management of environment variables through an .env file.
 
+## TLDR
+
+1. Clone this repo: `git clone github.com:stracker-phil/autogen-studio-docker.git`
+2. Copy `.env.example` to `.env` and insert your OpenAI API key
+3. Run `docker compose up --build`
+4. Navigate to `http://localhost:8081`
+
 ## Prerequisites
 
 Ensure you have Docker and Docker Compose installed on your machine.
@@ -47,7 +54,32 @@ During the container setup, a script modifies the database path in the applicati
 
 See `config/boot.sh` for the relevant code.
 
+## Customization
+
+If a custom [Skill](docs/skills.md) requires an API key or other private data, add those items to the `.env` file and restart the docker container:
+
+```sh
+docker compose down
+docker compose up
+```
+
+Use the `os.getenv()` Python function in the Skill to access the values from your `.env` file: 
+```py
+import os
+api_base = os.getenv('SMART_CONNECT_URL')
+...
+```
+
 ## Summary
 
 With this Docker Compose setup, you can easily run Autogen Studio on your local machine.
 Custom `.env` variables and the persisted SQLite database provide additional convenience.
+
+---
+
+## Usage Notes
+
+Video introduction to AutoGen Studio: https://www.youtube.com/watch?v=4ZqJSfV4818
+- Note: Ignore all the Conda and ENV-variable setup. This is handled by Docker.
+
+[Models](docs/models.md) | [Skills](docs/skills.md) | [Agents](docs/agents.md) | [Workflows](docs/workflows.md)
