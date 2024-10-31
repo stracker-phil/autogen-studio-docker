@@ -8,3 +8,5 @@ services:
       - .env
     volumes:
       - ./data/:/usr/local/autogen-data
+    environment:
+      - AUTOGENSTUDIO_DATADIR=/usr/local/autogen-data

@@ -48,12 +48,6 @@ To stop the Docker Compose setup, press Ctrl+C in the terminal where docker-comp
 docker-compose down
 ```
 
-## Custom Initialization Logic
-
-During the container setup, a script modifies the database path in the application's entry script to point to a mounted directory on the host machine. This ensures that the SQLite database is mirrored to the host, mainly to persist your data when rebuilding the container.
-
-See `config/boot.sh` for the relevant code.
-
 ## Customization
 
 If a custom [Skill](docs/skills.md) requires an API key or other private data, add those items to the `.env` file and restart the docker container:

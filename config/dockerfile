@@ -2,11 +2,9 @@ FROM python:3.11-slim
 
 RUN useradd -m appuser
 
-ARG HOST_PORT
-ARG OPENAI_API_KEY
-
 ENV HOST_PORT=${HOST_PORT}
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
+ENV AUTOGENSTUDIO_DATADIR=${AUTOGENSTUDIO_DATADIR}
 
 # Copy application files and install dependencies
 COPY . /app
@@ -21,4 +19,4 @@ RUN autogenstudio version
 
 EXPOSE $HOST_PORT
 
-ENTRYPOINT [ "sh", "-c", "autogenstudio ui --host 0.0.0.0 --port ${HOST_PORT}" ]
+ENTRYPOINT [ "sh", "-c", "autogenstudio ui --host 0.0.0.0 --port ${HOST_PORT} --appdir ${AUTOGENSTUDIO_DATADIR}" ]
